@@ -86,13 +86,26 @@ while True:
         st.subheader("Historical Data")
         if not df.empty:
             try:
-                # Ensure the DataFrame has valid data for the chart
-                st.line_chart(
-                    df[['created_at', 'field1', 'field2', 'field3', 'field4', 'field5', 'field6']]
-                    .set_index('created_at')
-                )
+                # Plot separate line charts for each field
+                st.write("**PM2.5 Levels (field1):**")
+                st.line_chart(df[['created_at', 'field1']].set_index('created_at'))
+                
+                st.write("**PM10 Levels (field2):**")
+                st.line_chart(df[['created_at', 'field2']].set_index('created_at'))
+                
+                st.write("**Ozone Levels (field3):**")
+                st.line_chart(df[['created_at', 'field3']].set_index('created_at'))
+                
+                st.write("**Humidity Levels (field4):**")
+                st.line_chart(df[['created_at', 'field4']].set_index('created_at'))
+                
+                st.write("**Temperature Levels (field5):**")
+                st.line_chart(df[['created_at', 'field5']].set_index('created_at'))
+                
+                st.write("**CO Levels (field6):**")
+                st.line_chart(df[['created_at', 'field6']].set_index('created_at'))
             except Exception as e:
-                st.error(f"Error displaying the graph: {e}")
+                st.error(f"Error displaying the graphs: {e}")
                 st.write("Ensure 'created_at' exists and numeric fields contain valid data.")
         else:
             st.warning("No historical data available.")
