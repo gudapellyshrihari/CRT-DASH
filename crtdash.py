@@ -86,24 +86,30 @@ while True:
         st.subheader("Historical Data")
         if not df.empty:
             try:
+                # Filter for the latest 10 values
+                df_latest = df.tail(10)
+
+                # Ensure x-axis uses time only
+                df_latest['time'] = df_latest['created_at'].dt.strftime('%H:%M:%S')
+
                 # Plot separate line charts for each field
                 st.write("**PM2.5 Levels (field1):**")
-                st.line_chart(df[['created_at', 'field1']].set_index('created_at'))
-                
+                st.line_chart(data=df_latest.set_index('time')['field1'], use_container_width=True, height=300)
+
                 st.write("**PM10 Levels (field2):**")
-                st.line_chart(df[['created_at', 'field2']].set_index('created_at'))
-                
+                st.line_chart(data=df_latest.set_index('time')['field2'], use_container_width=True, height=300)
+
                 st.write("**Ozone Levels (field3):**")
-                st.line_chart(df[['created_at', 'field3']].set_index('created_at'))
-                
+                st.line_chart(data=df_latest.set_index('time')['field3'], use_container_width=True, height=300)
+
                 st.write("**Humidity Levels (field4):**")
-                st.line_chart(df[['created_at', 'field4']].set_index('created_at'))
-                
+                st.line_chart(data=df_latest.set_index('time')['field4'], use_container_width=True, height=300)
+
                 st.write("**Temperature Levels (field5):**")
-                st.line_chart(df[['created_at', 'field5']].set_index('created_at'))
-                
+                st.line_chart(data=df_latest.set_index('time')['field5'], use_container_width=True, height=300)
+
                 st.write("**CO Levels (field6):**")
-                st.line_chart(df[['created_at', 'field6']].set_index('created_at'))
+                st.line_chart(data=df_latest.set_index('time')['field6'], use_container_width=True, height=300)
             except Exception as e:
                 st.error(f"Error displaying the graphs: {e}")
                 st.write("Ensure 'created_at' exists and numeric fields contain valid data.")
