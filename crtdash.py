@@ -6,13 +6,18 @@ import time
 
 # Function to fetch data from the API
 def fetch_data():
-    url = "https://api.thingspeak.com/channels/1596152/feeds.json?results=100"
+    url = f"https://api.thingspeak.com/channels/1596152/feeds.json?results=100&_={int(time.time())}"
     response = requests.get(url)
     if response.status_code == 200:
-        return response.json()
+        data = response.json()
+        if data.get('feeds'):
+            return data
+        else:
+            st.error("No feeds available in the API response.")
     else:
         st.error(f"Failed to fetch data. HTTP Status Code: {response.status_code}")
-        return {}
+    return {}
+
 
 # Function to process the fetched data
 def process_data(data):
